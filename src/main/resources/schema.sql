@@ -1,39 +1,42 @@
+-- garbagecoll.garbage_collection_site definition
 
-/* ¼ö°Å¾÷Àå */
 CREATE TABLE `garbage_collection_site` (
-  `gc_site_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '¾÷ÀåID',
-  `site_name` varchar(256) NOT NULL COMMENT '¾÷Àå¸í',
-  `location_name` varchar(256) NOT NULL COMMENT 'Áö¿ª¸í',
-  `contract_start_date` date DEFAULT NULL COMMENT '°è¾à½ÃÀÛÀÏ',
-  `owner_name` varchar(100) DEFAULT NULL COMMENT '»ç¾÷ÀÚÀÌ¸§',
+  `gc_site_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ì—…ì¥ID',
+  `site_name` varchar(256) NOT NULL COMMENT 'ì—…ì¥ëª…',
+  `location_name` varchar(256) NOT NULL COMMENT 'ì§€ì—­ëª…',
+  `contract_start_date` date DEFAULT NULL COMMENT 'ê³„ì•½ì‹œì‘ì¼',
+  `owner_name` varchar(100) DEFAULT NULL COMMENT 'ì‚¬ì—…ìì´ë¦„',
   PRIMARY KEY (`gc_site_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='¼ö°Å¾÷Àå';
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='ìˆ˜ê±°ì—…ì¥';
 
 
-/* ¼ö°ÅÀÌ·Â */
+-- garbagecoll.garbage_collection_history definition
+
 CREATE TABLE `garbage_collection_history` (
-  `gc_history_id` bigint(20) unsigned NOT NULL COMMENT 'ÀÌ·ÂID',
-  `gc_site_id` bigint(20) unsigned DEFAULT NULL COMMENT '¾÷ÀåID',
-  `collected_amount` bigint(20) DEFAULT 0 COMMENT '¼ö°Å·®',
-  `collected_trash_can_count` bigint(20) DEFAULT 0 COMMENT '¼ö°ÅÅë¼ö',
-  `gc_attachment_picture_count` bigint(20) DEFAULT 0 COMMENT 'Ã·ºÎ»çÁø°³¼ö',
-  `gc_special_note` varchar(2000) DEFAULT NULL COMMENT 'Æ¯ÀÌ»çÇ×',
-  `collected_time` datetime NOT NULL COMMENT '¼ö°Å½Ã°£',
+  `gc_history_id` bigint(20) unsigned NOT NULL COMMENT 'ì´ë ¥ID',
+  `gc_site_id` bigint(20) unsigned DEFAULT NULL COMMENT 'ì—…ì¥ID',
+  `collected_amount` bigint(20) DEFAULT 0 COMMENT 'ìˆ˜ê±°ëŸ‰',
+  `collected_trash_can_count` bigint(20) DEFAULT 0 COMMENT 'ìˆ˜ê±°í†µìˆ˜',
+  `gc_attachment_picture_count` bigint(20) DEFAULT 0 COMMENT 'ì²¨ë¶€ì‚¬ì§„ê°œìˆ˜',
+  `gc_special_note` varchar(2000) DEFAULT NULL COMMENT 'íŠ¹ì´ì‚¬í•­',
+  `collected_time` datetime NOT NULL COMMENT 'ìˆ˜ê±°ì‹œê°„',
   PRIMARY KEY (`gc_history_id`),
   KEY `garbage_collection_history_FK` (`gc_site_id`),
+  KEY `garbage_collection_history_collected_time_IDX` (`collected_time`,`gc_history_id`,`gc_site_id`) USING BTREE,
   CONSTRAINT `garbage_collection_history_FK` FOREIGN KEY (`gc_site_id`) REFERENCES `garbage_collection_site` (`gc_site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='¼ö°ÅÀÌ·Â';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='ìˆ˜ê±°ì´ë ¥';
 
 
-/* ¼ö°Å»çÁø */
+-- garbagecoll.garbage_collection_picture definition
+
 CREATE TABLE `garbage_collection_picture` (
-  `picture_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '»çÁøID',
-  `filename` varchar(200) NOT NULL COMMENT 'ÆÄÀÏ¸í',
-  `filename_extension` enum('jpg','jpeg','png','gif','bmp','tif','tiff','raw','rle','dib') DEFAULT NULL COMMENT 'ÆÄÀÏÈ®ÀåÀÚ',
-  `gc_history_id` bigint(20) unsigned DEFAULT NULL COMMENT '¼ö°ÅÀÌ·ÂID',
-  `create_time` timestamp NULL DEFAULT NULL COMMENT '»ı¼º½Ã°£',
-  `update_time` timestamp NULL DEFAULT NULL COMMENT '¼öÁ¤½Ã°£',
+  `picture_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ì‚¬ì§„ID',
+  `filename` varchar(200) NOT NULL COMMENT 'íŒŒì¼ëª…',
+  `filename_extension` enum('jpg','jpeg','png','gif','bmp','tif','tiff','raw','rle','dib') DEFAULT NULL COMMENT 'íŒŒì¼í™•ì¥ì',
+  `gc_history_id` bigint(20) unsigned DEFAULT NULL COMMENT 'ìˆ˜ê±°ì´ë ¥ID',
+  `create_time` timestamp NULL DEFAULT NULL COMMENT 'ìƒì„±ì‹œê°„',
+  `update_time` timestamp NULL DEFAULT NULL COMMENT 'ìˆ˜ì •ì‹œê°„',
   PRIMARY KEY (`picture_id`),
   KEY `garbage_collection_picture_gc_history_id_IDX` (`gc_history_id`,`picture_id`) USING BTREE,
   CONSTRAINT `garbage_collection_picture_FK` FOREIGN KEY (`gc_history_id`) REFERENCES `garbage_collection_history` (`gc_history_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='¼ö°Å»çÁø';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='ìˆ˜ê±°ì‚¬ì§„';
