@@ -40,7 +40,6 @@ public class GCHistoryService {
         List<GarbageCollectionHistoryDto> list = null;
         Page<GarbageCollectionHistory> historyPage = historyRepository.findAll(pageable);
 
-        List<GarbageCollectionHistory> historyList = historyPage.toList();
         list = historyPage.stream().map(
                history -> {
                    return GarbageCollectionHistoryDto.builder()

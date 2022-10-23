@@ -7,6 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface GarbageCollectionSiteRepository extends JpaRepository<GarbageCollectionSite,Long> {
+    /**
+     * 수거 사업장현황을 조회
+     * @return 수거사업장현황 리스트
+     */
     @Query(value =
             "select\n" +
                     "gcs.gc_site_id as siteId\n" +

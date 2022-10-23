@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 
 
-@ApiModel( value = "SiteStatusDto",description = "수거업장상태" )
+@ApiModel( value = "SiteStatusDto",description = "수거업장현황" )
 @Getter
 @Builder
 @RequiredArgsConstructor

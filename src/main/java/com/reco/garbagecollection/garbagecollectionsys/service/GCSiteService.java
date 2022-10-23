@@ -22,6 +22,10 @@ import java.util.stream.Collectors;
 public class GCSiteService {
     private final GarbageCollectionSiteRepository siteRepository;
 
+    /**
+     * 전체 업장현황을 조회함
+     * @return 업장현황(업장명, 위치, 누적수거량, 누적수거통수 등)
+     */
     @Transactional
     public List<SiteStatusDto> getAllSiteStatus() {
         List<SiteStatusDto> result = null;
@@ -39,6 +43,11 @@ public class GCSiteService {
         return result;
     }
 
+    /**
+     * 입력된 수거사업장 정보를 저장함
+     * @param siteInfoDto 입력된 수거사업장 dto
+     * @return 입력된 수거업장 id
+     */
     @Transactional
     public long saveSiteInfoDto(SiteInfoDto siteInfoDto) {
         GarbageCollectionSite siteEntity = GarbageCollectionSite.builder()
