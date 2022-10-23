@@ -1,5 +1,6 @@
-package com.reco.garbagecollection.garbagecollectionsys.web.dto;
+package com.reco.garbagecollection.garbagecollectionsys.web.dto.historypage;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,8 +19,10 @@ public class GarbageCollectionHistoryDto {
     private long collectedCanCount; // 수거통수
     private long attachmentPictureCount; // 첨부사진개수
     private String specialNote; // 특이사항
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime collectedTime; //수거일시
+
 
     @Builder
     public GarbageCollectionHistoryDto(String siteName,

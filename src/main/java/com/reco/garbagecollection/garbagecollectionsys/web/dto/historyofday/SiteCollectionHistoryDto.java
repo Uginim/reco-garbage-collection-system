@@ -1,4 +1,4 @@
-package com.reco.garbagecollection.garbagecollectionsys.web.dto;
+package com.reco.garbagecollection.garbagecollectionsys.web.dto.historyofday;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -6,6 +6,9 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * 업장수거이력DTO
+ */
 @Getter
 public class SiteCollectionHistoryDto {
     private String siteName;

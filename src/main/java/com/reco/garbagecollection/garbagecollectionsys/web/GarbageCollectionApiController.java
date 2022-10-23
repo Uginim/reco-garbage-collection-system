@@ -2,8 +2,8 @@ package com.reco.garbagecollection.garbagecollectionsys.web;
 
 import com.reco.garbagecollection.garbagecollectionsys.service.GCHistoryService;
 import com.reco.garbagecollection.garbagecollectionsys.service.GCSiteService;
-import com.reco.garbagecollection.garbagecollectionsys.web.dto.GarbageCollectionHistoryDto;
-import com.reco.garbagecollection.garbagecollectionsys.web.dto.SiteCollectionHistoryDto;
+import com.reco.garbagecollection.garbagecollectionsys.web.dto.historypage.GCHistoryPageDto;
+import com.reco.garbagecollection.garbagecollectionsys.web.dto.historyofday.SiteCollectionHistoryDto;
 import com.reco.garbagecollection.garbagecollectionsys.web.dto.SiteInfoDto;
 import com.reco.garbagecollection.garbagecollectionsys.web.dto.SiteStatusDto;
 import lombok.RequiredArgsConstructor;
@@ -43,7 +43,7 @@ public class GarbageCollectionApiController {
 
     /**
      * 입력된 일자(yyyy-MM-dd)에 수거이력과 수거사진 정보를 출력하는 API
-     * @param dateStr
+     * @param dateStr 조회항 일자문자열
      * @return
      */
     @GetMapping("/v1/histories")
@@ -78,11 +78,11 @@ public class GarbageCollectionApiController {
     /**
      * 수거이력 정보를 페이징하여 리턴하는 API
      * @param pageable 페이지정보
-     * @return
+     * @return 이력페이지Dto
      */
     @GetMapping("/v1/histories/pages")
-    public List<GarbageCollectionHistoryDto> getHistoriesPage(Pageable pageable){
-        List<GarbageCollectionHistoryDto> pageContent = null;
+    public GCHistoryPageDto getHistoriesPage(Pageable pageable){
+        GCHistoryPageDto pageContent = null;
         pageContent = historyService.getHistoriesPage(pageable);
         return pageContent;
     }

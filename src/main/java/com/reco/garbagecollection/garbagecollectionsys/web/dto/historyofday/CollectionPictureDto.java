@@ -1,4 +1,4 @@
-package com.reco.garbagecollection.garbagecollectionsys.web.dto;
+package com.reco.garbagecollection.garbagecollectionsys.web.dto.historyofday;
 
 import lombok.Builder;
 import lombok.Getter;

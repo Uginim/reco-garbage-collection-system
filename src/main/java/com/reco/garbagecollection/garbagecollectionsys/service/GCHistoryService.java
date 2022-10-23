@@ -2,9 +2,10 @@ package com.reco.garbagecollection.garbagecollectionsys.service;
 
 import com.reco.garbagecollection.garbagecollectionsys.domain.gc.history.GarbageCollectionHistory;
 import com.reco.garbagecollection.garbagecollectionsys.domain.gc.history.GarbageCollectionHistoryRepository;
-import com.reco.garbagecollection.garbagecollectionsys.web.dto.CollectionPictureDto;
-import com.reco.garbagecollection.garbagecollectionsys.web.dto.GarbageCollectionHistoryDto;
-import com.reco.garbagecollection.garbagecollectionsys.web.dto.SiteCollectionHistoryDto;
+import com.reco.garbagecollection.garbagecollectionsys.web.dto.historyofday.CollectionPictureDto;
+import com.reco.garbagecollection.garbagecollectionsys.web.dto.historypage.GCHistoryPageDto;
+import com.reco.garbagecollection.garbagecollectionsys.web.dto.historypage.GarbageCollectionHistoryDto;
+import com.reco.garbagecollection.garbagecollectionsys.web.dto.historyofday.SiteCollectionHistoryDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,20 +30,21 @@ public class GCHistoryService {
 
 
     /**
-     *
+     * 수거이력을 페이지네이션하여 조회
      * @param pageable 페이지 설정
-     * @return
+     * @return 수거이력
      */
     @Transactional
-    public List<GarbageCollectionHistoryDto> getHistoriesPage(Pageable pageable) {
+    public GCHistoryPageDto getHistoriesPage(Pageable pageable) {
+        GCHistoryPageDto resultPage = null;
         List<GarbageCollectionHistoryDto> list = null;
-        List<GarbageCollectionHistory> historyPage = historyRepository.findAll(pageable).toList();
-        List<GarbageCollectionHistory> historyPage2 = historyRepository.findAll(pageable).toList();
+        Page<GarbageCollectionHistory> historyPage = historyRepository.findAll(pageable);
 
+        List<GarbageCollectionHistory> historyList = historyPage.toList();
         list = historyPage.stream().map(
                history -> {
-                   logger.info(""+history.getGcSpecialNote());
                    return GarbageCollectionHistoryDto.builder()
+                           .specialNote(history.getGcSpecialNote()) // 특이사항
                            .historyId(history.getGcHistoryId()) // 이력ID
                            .locationName(history.getSite().getLocationName()) // 지역명
                            .attachmentPictureCount(history.getGcAttachmentPictureCount()) // 첨부사진개수
@@ -54,7 +56,12 @@ public class GCHistoryService {
                            .build();
                }
        ).collect(Collectors.toList());
-       return list;
+        resultPage = GCHistoryPageDto.builder()
+                .historyDtoList(list)
+                .totalElementCount(historyPage.getTotalElements())
+                .totalPageCount(historyPage.getTotalPages())
+                .build();
+       return resultPage;
    }
 
     /**
