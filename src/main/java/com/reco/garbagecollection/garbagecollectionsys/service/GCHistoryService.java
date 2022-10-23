@@ -77,12 +77,14 @@ public class GCHistoryService {
         result = histories.stream().map(garbageCollectionHistory -> {
             return SiteCollectionHistoryDto.builder()
                     .siteName(garbageCollectionHistory.getSite().getSiteName()) // 업장명
+                    .ownerName(garbageCollectionHistory.getSite().getOwnerName()) // 사업자명
                     .collectedAmount(garbageCollectionHistory.getCollectedAmount()) // 수거량
                     .collectedTime(garbageCollectionHistory.getCollectedTime()) // 수거일시
                     .collectedCanCount(garbageCollectionHistory.getCollectedTrashCanCount()) // 수거통수
                     // 첨부사진(N개)
                     .pictureDtoList(garbageCollectionHistory.getPictures().stream().map(picture->{
                         return CollectionPictureDto.builder()
+                                /* 파일명(확장자 합친버전)*/
                                 .fileName(
                                         String.format("%s.%s"
                                                 , picture.getFilename()
